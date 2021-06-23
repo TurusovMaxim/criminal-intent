@@ -1,4 +1,4 @@
-package com.bignerdranch.android.criminalintent
+package com.bignerdranch.android.criminalintent.controllers
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +11,8 @@ import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.bignerdranch.android.criminalintent.R
+import com.bignerdranch.android.criminalintent.data.Crime
 
 /**
  * It's a fragment of the application that describes the detailed crime screen

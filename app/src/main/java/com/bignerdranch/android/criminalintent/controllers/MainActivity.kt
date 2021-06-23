@@ -1,7 +1,8 @@
-package com.bignerdranch.android.criminalintent
+package com.bignerdranch.android.criminalintent.controllers
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bignerdranch.android.criminalintent.R
 
 /**
  * UI fragment hosting (CrimeFragment)
@@ -15,8 +16,8 @@ class MainActivity : AppCompatActivity() {
         //check if the fragment was created
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-        if (currentFragment != null) {
-            val fragment = CrimeFragment()
+        if (currentFragment == null) {
+            val fragment = CrimeListFragment.newInstance()
 
             supportFragmentManager
                 .beginTransaction()
