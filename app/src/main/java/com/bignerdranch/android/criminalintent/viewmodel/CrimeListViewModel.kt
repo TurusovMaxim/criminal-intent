@@ -1,6 +1,7 @@
-package com.bignerdranch.android.criminalintent
+package com.bignerdranch.android.criminalintent.viewmodel
 
 import androidx.lifecycle.ViewModel
+import com.bignerdranch.android.criminalintent.data.Crime
 
 /**
  * список преступлений

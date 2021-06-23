@@ -1,7 +1,8 @@
-package com.bignerdranch.android.criminalintent
+package com.bignerdranch.android.criminalintent.controllers
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bignerdranch.android.criminalintent.R
 
 /**
  * UI fragment hosting (CrimeFragment)
