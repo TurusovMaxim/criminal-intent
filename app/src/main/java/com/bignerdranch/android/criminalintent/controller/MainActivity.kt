@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //check if the fragment was created
+        //check if our fragment was created
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {

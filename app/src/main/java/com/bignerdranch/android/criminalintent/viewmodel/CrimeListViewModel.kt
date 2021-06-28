@@ -8,7 +8,7 @@ import com.bignerdranch.android.criminalintent.repository.CrimeRepository
  */
 class CrimeListViewModel: ViewModel() {
 
-    //Get an instance of the repository
+    //Get an instance of the database repository
     private val crimeRepository: CrimeRepository = CrimeRepository.get()
 
     //Get the list of crimes
