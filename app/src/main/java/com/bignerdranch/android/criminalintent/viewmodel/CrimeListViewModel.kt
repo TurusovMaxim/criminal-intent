@@ -1,23 +1,14 @@
 package com.bignerdranch.android.criminalintent.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.bignerdranch.android.criminalintent.data.Crime
+import com.bignerdranch.android.criminalintent.repository.CrimeRepository
 
 /**
  * список преступлений
  */
 class CrimeListViewModel: ViewModel() {
 
-    val crimes = mutableListOf<Crime>()
+    private val crimeRepository: CrimeRepository = CrimeRepository.get()
 
-    //создание фиктивных преступлений для вывода списка
-    init {
-        for (i in 0 until 100) {
-            val crime = Crime()
-
-            crime.title = "Crime #$i"
-            crime.isSolved = i % 2 == 0
-            crimes += crime
-        }
-    }
+    val crimeListLiveData = crimeRepository.getCrimes()
 }

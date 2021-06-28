@@ -1,4 +1,4 @@
-package com.bignerdranch.android.criminalintent.controllers
+package com.bignerdranch.android.criminalintent.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
