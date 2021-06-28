@@ -18,12 +18,18 @@ import com.bignerdranch.android.criminalintent.viewmodel.CrimeListViewModel
 
 private const val TAG = "CrimeListFragment"
 
+/**
+ * This fragment represents a list of crimes.
+ */
 class CrimeListFragment: Fragment() {
 
+    //RecyclerView
     private lateinit var crimeRecyclerView: RecyclerView
 
+    //Initializing the adapter
     private var crimeAdapter: CrimeAdapter? = CrimeAdapter(emptyList())
 
+    //Initializing the ViewModel
     private val crimeListViewModel: CrimeListViewModel by lazy {
         ViewModelProvider(this).get(CrimeListViewModel::class.java)
     }
@@ -34,7 +40,7 @@ class CrimeListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //инициализация RecyclerView
+        //Initializing the RecyclerView
         val view = inflater.inflate(R.layout.fragment_crime_list, container, false)
 
         crimeRecyclerView = view.findViewById(R.id.crime_recycler_view) as RecyclerView
@@ -46,6 +52,7 @@ class CrimeListFragment: Fragment() {
         return view
     }
 
+    //LiveData observer
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,20 +68,20 @@ class CrimeListFragment: Fragment() {
         )
     }
 
-    //настройка и подключение адаптера к RecyclerView
+    //It's a reaction to receiving new data from a LiveData object
     private fun updateUI(crimes: List<Crime>) {
         crimeAdapter = CrimeAdapter(crimes)
         crimeRecyclerView.adapter = crimeAdapter
     }
 
-    //создаем экземпляр фрагмента
+    //Create the fragment instance
     companion object {
         fun newInstance(): CrimeListFragment {
             return CrimeListFragment()
         }
     }
 
-    //ViewHolder для создания элемента представления для RecyclerView
+    //ViewHolder to create an itemView for the RecyclerView
     private inner class CrimeHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var crime: Crime
 
@@ -91,13 +98,13 @@ class CrimeListFragment: Fragment() {
         fun bind(crime: Crime) {
             this.crime = crime
 
-            //заголовок преступления
+            //Headline of a crime
             titleTextView.text = this.crime.title
 
-            //дата претупления
+            //Date of a crime
             dateTextView.text = this.crime.date.toString()
 
-            //изображение, visible == true, если преступления раскрыто
+            //ImageStatusCrime, visible == true, if a crime is solved
             solvedImageView.visibility = if (crime.isSolved) {
                 View.VISIBLE
             } else {
@@ -105,12 +112,13 @@ class CrimeListFragment: Fragment() {
             }
         }
 
+        //Press an itemView to show a crime
         override fun onClick(p0: View?) {
             Toast.makeText(context, "${crime.title} pressed!" , Toast.LENGTH_LONG).show()
         }
     }
 
-    //Adapter создает экземпляры ViewHolder и наполняет данными элементы представления
+    // Adapter creates instances of ViewHolder and fills view elements with data
     private inner class CrimeAdapter(var crimes: List<Crime>): RecyclerView.Adapter<CrimeHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
            val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)

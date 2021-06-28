@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.criminalintent.repository.CrimeRepository
 
 /**
- * список преступлений
+ * Get a list of crimes from the database repository.
  */
 class CrimeListViewModel: ViewModel() {
 
+    //Get an instance of the repository
     private val crimeRepository: CrimeRepository = CrimeRepository.get()
 
+    //Get the list of crimes
     val crimeListLiveData = crimeRepository.getCrimes()
 }
