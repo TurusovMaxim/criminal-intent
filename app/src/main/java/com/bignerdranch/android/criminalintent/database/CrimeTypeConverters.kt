@@ -3,6 +3,9 @@ package com.bignerdranch.android.criminalintent.database
 import androidx.room.TypeConverter
 import java.util.*
 
+/**
+ * A type converter converts a special type to a format for storage in a database.
+ */
 class CrimeTypeConverters {
 
     //DATE(date)

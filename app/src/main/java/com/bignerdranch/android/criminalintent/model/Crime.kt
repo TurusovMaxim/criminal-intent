@@ -5,12 +5,13 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 /**
- * @param id -  crime identifier.
- * @param title - headline of the crime.
- * @param date - date of the crime.
+ * @param id -  crime identifier (database primary key).
+ * @param title - headline of a crime.
+ * @param date - date of a crime.
  * @param isSolved - crime status.
  *
- * It's a data model that describes crimes in the application.
+ * It's a data model that describes crimes in the application and
+ * also it's a database entity.
  */
 @Entity
 data class Crime(

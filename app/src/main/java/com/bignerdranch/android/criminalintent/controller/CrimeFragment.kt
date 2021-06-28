@@ -51,7 +51,7 @@ class CrimeFragment: Fragment() {
         val titleWatcher = object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-            //setting the title of the crime
+            //setting the title of a crime
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 crime.title = p0.toString()
             }
@@ -70,7 +70,7 @@ class CrimeFragment: Fragment() {
 
         //solvedCheckBox - CheckBox
         solvedCheckBox.apply {
-            //setting the status of the crime
+            //setting the status of a crime
             setOnCheckedChangeListener{ _: CompoundButton, isChecked: Boolean ->
                 crime.isSolved = isChecked
             }
