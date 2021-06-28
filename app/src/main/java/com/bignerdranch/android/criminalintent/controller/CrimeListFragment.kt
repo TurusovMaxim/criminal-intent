@@ -1,4 +1,4 @@
-package com.bignerdranch.android.criminalintent.controllers
+package com.bignerdranch.android.criminalintent.controller
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.R
-import com.bignerdranch.android.criminalintent.data.Crime
+import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.viewmodel.CrimeListViewModel
 
 private const val TAG = "CrimeListFragment"
@@ -22,16 +22,10 @@ class CrimeListFragment: Fragment() {
 
     private lateinit var crimeRecyclerView: RecyclerView
 
-    private var crimeAdapter: CrimeAdapter? = null
+    private var crimeAdapter: CrimeAdapter? = CrimeAdapter(emptyList())
 
     private val crimeListViewModel: CrimeListViewModel by lazy {
         ViewModelProvider(this).get(CrimeListViewModel::class.java)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        Log.d(TAG, "Total crimes: ${crimeListViewModel.crimes.size}")
     }
 
     override fun onCreateView(
@@ -47,14 +41,28 @@ class CrimeListFragment: Fragment() {
 
         crimeRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        updateUI()
+        crimeRecyclerView.adapter = crimeAdapter
 
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        crimeListViewModel.crimeListLiveData.observe(
+            viewLifecycleOwner,
+            { crimes ->
+                crimes?.let {
+                    Log.d(TAG, "Got crimes ${crimes.size}")
+
+                    updateUI(crimes)
+                }
+            }
+        )
+    }
+
     //настройка и подключение адаптера к RecyclerView
-    private fun updateUI() {
-        val crimes = crimeListViewModel.crimes
+    private fun updateUI(crimes: List<Crime>) {
         crimeAdapter = CrimeAdapter(crimes)
         crimeRecyclerView.adapter = crimeAdapter
     }

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.criminalintent.controllers
+package com.bignerdranch.android.criminalintent.controller
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,7 +12,7 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.bignerdranch.android.criminalintent.R
-import com.bignerdranch.android.criminalintent.data.Crime
+import com.bignerdranch.android.criminalintent.model.Crime
 
 /**
  * It's a fragment of the application that describes the detailed crime screen
@@ -36,7 +36,7 @@ class CrimeFragment: Fragment() {
 
         titleField = view?.findViewById(R.id.crime_title) as EditText
         dateButton = view?.findViewById(R.id.crime_date) as Button
-        solvedCheckBox = view?.findViewById(R.id.crime_solved_img) as CheckBox
+        solvedCheckBox = view?.findViewById(R.id.crime_solved) as CheckBox
 
         return inflater.inflate(R.layout.fragment_crime, container, false)
     }
