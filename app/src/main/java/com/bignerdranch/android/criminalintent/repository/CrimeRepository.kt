@@ -29,7 +29,7 @@ class CrimeRepository private constructor(context: Context){
     //GET all data
     fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
 
-    //GET specific data
+    //GET the crime
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
 
     companion object {

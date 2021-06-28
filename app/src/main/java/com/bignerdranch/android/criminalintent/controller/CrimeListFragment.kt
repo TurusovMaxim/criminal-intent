@@ -104,7 +104,7 @@ class CrimeListFragment: Fragment() {
             //Date of a crime
             dateTextView.text = this.crime.date.toString()
 
-            //ImageStatusCrime, visible == true, if a crime is solved
+            //ImageStatusCrime, visible == true, if the crime is solved
             solvedImageView.visibility = if (crime.isSolved) {
                 View.VISIBLE
             } else {
@@ -118,7 +118,7 @@ class CrimeListFragment: Fragment() {
         }
     }
 
-    // Adapter creates instances of ViewHolder and fills view elements with data
+    //Adapter creates instances of ViewHolder and fills view elements with data
     private inner class CrimeAdapter(var crimes: List<Crime>): RecyclerView.Adapter<CrimeHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeHolder {
            val view = layoutInflater.inflate(R.layout.list_item_crime, parent, false)

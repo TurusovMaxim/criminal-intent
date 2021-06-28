@@ -63,7 +63,7 @@ class CrimeFragment: Fragment() {
 
         //dateButton - Button
         dateButton.apply {
-            //setting the date of the crime
+            //setting the date of a crime
             text = crime.date.toString()
             isEnabled = false
         }
