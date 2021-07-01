@@ -1,5 +1,6 @@
 package com.bignerdranch.android.criminalintent.controller
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.criminalintent.R
 import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.viewmodel.CrimeListViewModel
+import java.util.*
 
 private const val TAG = "CrimeListFragment"
 
@@ -22,6 +23,18 @@ private const val TAG = "CrimeListFragment"
  * This fragment represents a list of crimes.
  */
 class CrimeListFragment: Fragment() {
+
+    /**
+     * It is a callback interface that is implemented in the fragment host.
+     * This is required to interact with another fragment.
+     * Passing the crime identifier to another fragment via the host.
+     */
+    interface Callbacks {
+        fun onCrimeSelected(crimeId: UUID)
+    }
+
+    //it is a property to hold an object (Callbacks)
+    private var callbacks: Callbacks? = null
 
     //RecyclerView
     private lateinit var crimeRecyclerView: RecyclerView
@@ -32,6 +45,11 @@ class CrimeListFragment: Fragment() {
     //Initializing the ViewModel
     private val crimeListViewModel: CrimeListViewModel by lazy {
         ViewModelProvider(this).get(CrimeListViewModel::class.java)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
     }
 
     override fun onCreateView(
@@ -64,14 +82,18 @@ class CrimeListFragment: Fragment() {
 
                     updateUI(crimes)
                 }
-            }
-        )
+            })
     }
 
     //It's a reaction to receiving new data from a LiveData object
     private fun updateUI(crimes: List<Crime>) {
         crimeAdapter = CrimeAdapter(crimes)
         crimeRecyclerView.adapter = crimeAdapter
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
     }
 
     //Create the fragment instance
@@ -114,7 +136,7 @@ class CrimeListFragment: Fragment() {
 
         //Press an itemView to show a crime
         override fun onClick(p0: View?) {
-            Toast.makeText(context, "${crime.title} pressed!" , Toast.LENGTH_LONG).show()
+            callbacks?.onCrimeSelected(crime.id)
         }
     }
 
