@@ -138,6 +138,11 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
         crimeDetailViewModel.saveCrime(crime)
     }
 
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
+    }
+
     companion object {
 
         /**
@@ -155,8 +160,5 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
         }
     }
 
-    override fun onDateSelected(date: Date) {
-        crime.date = date
-        updateUI()
-    }
+
 }
