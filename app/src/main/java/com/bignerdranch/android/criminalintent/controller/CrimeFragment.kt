@@ -21,8 +21,10 @@ import java.util.*
  */
 private const val TAG = "CrimeFragment"
 private const val ARG_CRIME_ID = "crime_id"
+private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
 
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
@@ -105,10 +107,12 @@ class CrimeFragment : Fragment() {
         titleField.addTextChangedListener(titleWatcher)
 
         //dateButton - Button
-        dateButton.apply {
+        dateButton.setOnClickListener {
             //setting the date of a crime
-            text = crime.date.toString()
-            isEnabled = false
+            DatePickerFragment.newInstance(crime.date).apply {
+                setTargetFragment(this@CrimeFragment, REQUEST_DATE)
+                show(this@CrimeFragment.parentFragmentManager, DIALOG_DATE)
+            }
         }
 
         //solvedCheckBox - CheckBox
@@ -149,5 +153,10 @@ class CrimeFragment : Fragment() {
                 arguments = args
             }
         }
+    }
+
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
     }
 }
