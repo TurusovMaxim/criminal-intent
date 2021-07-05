@@ -35,12 +35,14 @@ class CrimeRepository private constructor(context: Context){
     //GET the crime
     fun getCrime(id: UUID): LiveData<Crime?> = crimeDao.getCrime(id)
 
+    //UPDATE the crime
     fun updateCrime(crime: Crime) {
         executor.execute {
             crimeDao.updateCrime(crime)
         }
     }
 
+    //INSERT new crime
     fun addCrime(crime: Crime) {
         executor.execute {
             crimeDao.addCrime(crime)

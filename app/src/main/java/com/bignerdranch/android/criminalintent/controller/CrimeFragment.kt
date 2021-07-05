@@ -16,13 +16,16 @@ import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.viewmodel.CrimeDetailViewModel
 import java.util.*
 
+
+private const val TAG = "CrimeFragment"
+private const val ARG_CRIME_ID = "crime_id"
+private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
+
 /**
  * It's a fragment of the application that describes the detailed crime screen
  */
-private const val TAG = "CrimeFragment"
-private const val ARG_CRIME_ID = "crime_id"
-
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
 
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
@@ -105,10 +108,14 @@ class CrimeFragment : Fragment() {
         titleField.addTextChangedListener(titleWatcher)
 
         //dateButton - Button
-        dateButton.apply {
-            //setting the date of a crime
-            text = crime.date.toString()
-            isEnabled = false
+        dateButton.setOnClickListener {
+            //initialize the date picker dialog,
+            // transfer of the current date of the crime from the database
+            DatePickerFragment.newInstance(crime.date).apply {
+                //set the target fragment
+                setTargetFragment(this@CrimeFragment, REQUEST_DATE)
+                show(this@CrimeFragment.parentFragmentManager, DIALOG_DATE)
+            }
         }
 
         //solvedCheckBox - CheckBox
@@ -129,9 +136,16 @@ class CrimeFragment : Fragment() {
         }
     }
 
+
     override fun onStop() {
         super.onStop()
         crimeDetailViewModel.saveCrime(crime)
+    }
+
+    //return the user-selected date to the database
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
     }
 
     companion object {
@@ -150,4 +164,6 @@ class CrimeFragment : Fragment() {
             }
         }
     }
+
+
 }

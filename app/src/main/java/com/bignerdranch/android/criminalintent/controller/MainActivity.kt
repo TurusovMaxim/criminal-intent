@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bignerdranch.android.criminalintent.R
 import java.util.*
 
+
+private const val TAG = "MainActivity"
+
 /**
  * UI fragment hosting (CrimeFragment)
  * MainActivity - host
  */
-private const val TAG = "MainActivity"
-
 class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity(), CrimeListFragment.Callbacks {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (currentFragment == null) {
+            //init the CrimeListFragment
             val fragment = CrimeListFragment.newInstance()
             supportFragmentManager
                 .beginTransaction()
