@@ -5,7 +5,7 @@ import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.repository.CrimeRepository
 
 /**
- * Get a list of crimes from the database repository.
+ * Get a list of crimes or add new crime from the database repository.
  */
 class CrimeListViewModel: ViewModel() {
 
@@ -15,6 +15,7 @@ class CrimeListViewModel: ViewModel() {
     //Get the list of crimes
     val crimeListLiveData = crimeRepository.getCrimes()
 
+    //add new crime
     fun addCrime(crime: Crime) {
         crimeRepository.addCrime(crime)
     }

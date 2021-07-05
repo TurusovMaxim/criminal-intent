@@ -7,6 +7,6 @@
     <string name="crime_details_label">Details</string>
     <string name="crime_solved_label">Solved</string>
 
-    <string name="new_crime">New Crime</string>
+    <string name="new_crime">Add New Crime</string>
 
 </resources>

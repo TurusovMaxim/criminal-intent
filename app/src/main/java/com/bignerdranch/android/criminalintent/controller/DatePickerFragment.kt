@@ -9,8 +9,12 @@ import java.util.*
 
 private const val ARG_DATE = "date"
 
+/**
+ * This is a fragment representing the date picker dialog (day, month, year)
+ */
 class DatePickerFragment: DialogFragment() {
 
+    //return the user-selected date value
     interface Callbacks {
         fun onDateSelected(date: Date)
     }
@@ -22,12 +26,15 @@ class DatePickerFragment: DialogFragment() {
 
             val resultDate: Date = GregorianCalendar(year, month, day).time
 
+            //target fragment - CrimeFragment
+            //passing the date value to the callback function so CrimeFragment can use it
             targetFragment?.let { fragment ->
                 (fragment as Callbacks).onDateSelected(resultDate)
             }
 
         }
 
+        //get the date value from the arguments package
         val date = arguments?.getSerializable(ARG_DATE) as Date
 
         val calendar = Calendar.getInstance()
@@ -38,6 +45,7 @@ class DatePickerFragment: DialogFragment() {
         val initialMonth = calendar.get(Calendar.MONTH)
         val initialDaY= calendar.get(Calendar.DAY_OF_MONTH)
 
+        //set the date
         return DatePickerDialog(
             requireContext(),
             dateListener,
@@ -46,6 +54,11 @@ class DatePickerFragment: DialogFragment() {
             initialDaY)
     }
 
+    /**
+     * Get the date value from the model layer using CrimeFragment.
+     * CrimeFragment initializes the given fragment.
+     * The date value is placed in the arguments package.
+     */
     companion object {
         fun newInstance(date: Date): DatePickerFragment {
             val args = Bundle().apply {

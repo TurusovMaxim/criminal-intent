@@ -52,6 +52,8 @@ class CrimeListFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //This snippet will handle the function onCreateOptionsMenu
         setHasOptionsMenu(true)
     }
 
@@ -99,6 +101,7 @@ class CrimeListFragment: Fragment() {
         callbacks = null
     }
 
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_crime_list, menu)
@@ -107,10 +110,14 @@ class CrimeListFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.new_crime -> {
+                //add new crime to the database
                 val crime = Crime()
                 crimeListViewModel.addCrime(crime)
+
+                //open the edit crime activity
                 callbacks?.onCrimeSelected(crime.id)
 
+                //the operation is over
                 true
             }
             else -> return super.onOptionsItemSelected(item)
