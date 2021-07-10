@@ -1,10 +1,15 @@
 package com.bignerdranch.android.criminalintent.controller
 
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.criminalintent.R
 import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.viewmodel.CrimeDetailViewModel
-import android.text.format.DateFormat
 import java.util.*
 
 
@@ -160,6 +164,18 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
             setOnClickListener {
                 startActivityForResult(pickContactIntent, REQUEST_CONTACT)
             }
+
+            //check if needed activities exist
+            val packageManager: PackageManager = requireActivity().packageManager
+            
+            val resolvedActivity: ResolveInfo? = packageManager.resolveActivity(
+                pickContactIntent,
+                PackageManager.MATCH_DEFAULT_ONLY
+            )
+
+            if (resolvedActivity == null) {
+                isEnabled = false
+            }
         }
     }
 
@@ -177,24 +193,62 @@ class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
         }
     }
 
+    //formatting the text of the report
     private fun getCrimeReport(): String {
+        //is it solved?
         val solvedString = if (crime.isSolved) {
             getString(R.string.crime_report_solved)
         } else {
             getString(R.string.crime_report_unsolved)
         }
 
-
+        //date of the crime
         val dateString = DateFormat.format(DATE_FORMAT, crime.date).toString()
 
+        //is there any suspect?
         val suspect = if(crime.suspect.isBlank()) {
             getString(R.string.crime_report_no_suspect)
         } else {
             getString(R.string.crime_report_suspect, crime.suspect)
         }
 
-
+        //return result
         return getString(R.string.crime_report, crime.title, dateString, solvedString, suspect)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when {
+            resultCode != Activity.RESULT_OK ->
+                return
+            requestCode == REQUEST_CONTACT && data != null -> {
+                val contactUri: Uri? = data.data
+
+                val contactFields = arrayOf(ContactsContract.Contacts.DISPLAY_NAME)
+
+                val cursor = requireActivity().contentResolver.query(
+                    contactUri!!,
+                    contactFields,
+                    null,
+                    null,
+                    null
+                )
+
+                cursor?.use {
+                    if (it.count == 0) {
+                        return
+                    }
+
+                    it.moveToFirst()
+
+                    val suspect = it.getString(0)
+
+                    crime.suspect = suspect
+                    crimeDetailViewModel.saveCrime(crime)
+                    suspectButton.text = suspect
+                }
+            }
+        }
     }
 
 
