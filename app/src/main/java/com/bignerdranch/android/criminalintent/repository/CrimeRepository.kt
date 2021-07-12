@@ -7,6 +7,7 @@ import com.bignerdranch.android.criminalintent.database.CrimeDao
 import com.bignerdranch.android.criminalintent.database.CrimeDatabase
 import com.bignerdranch.android.criminalintent.database.migration_1_2
 import com.bignerdranch.android.criminalintent.model.Crime
+import java.io.File
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -31,6 +32,9 @@ class CrimeRepository private constructor(context: Context){
     //This is an executor for performing database operations (UID) in a background thread
     private val executor = Executors.newSingleThreadExecutor()
 
+    //получаем дескриптор каталога для приватных файлов
+    private val filesDir = context.applicationContext.filesDir
+
     //GET all data
     fun getCrimes(): LiveData<List<Crime>> = crimeDao.getCrimes()
 
@@ -50,6 +54,10 @@ class CrimeRepository private constructor(context: Context){
             crimeDao.addCrime(crime)
         }
     }
+
+    //возвращает объекты File, указывающие в нужные места
+    fun getPhotoFile(crime: Crime): File =
+        File(filesDir, crime.photoFileName)
 
     companion object {
         private var INSTANCE: CrimeRepository? = null
