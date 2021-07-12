@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.criminalintent.model.Crime
 import com.bignerdranch.android.criminalintent.repository.CrimeRepository
+import java.io.File
 import java.util.*
 
 /**
@@ -35,4 +36,7 @@ class CrimeDetailViewModel : ViewModel() {
         crimeRepository.updateCrime(crime)
     }
 
+    fun getPhotoFile(crime: Crime): File {
+        return crimeRepository.getPhotoFile(crime)
+    }
 }
